@@ -3,6 +3,8 @@ package com.back.estfood.modelos;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,6 +34,7 @@ public class Producto  implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date fechaIngreso;
 	
+	@Column(unique = true)
 	private String codigoProducto;
 	private Double ivaProducto;
 	private Double precioVentaProducto;
@@ -41,17 +44,17 @@ public class Producto  implements Serializable{
 	/* Relaciones */
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_marca")
 	private Marca marca;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_presentacion")
 	private Presentacion presentacion;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_zona")
 	private Zona zona;
 	

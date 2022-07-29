@@ -7,5 +7,7 @@ import com.back.estfood.modelos.Producto;
 
 @Repository
 public interface IProductoRepo extends JpaRepository<Producto, Long>{
-
+	
+	public Producto findByCodigoProducto(String codigoProducto);
+	
 }
