@@ -20,7 +20,7 @@ import com.back.estfood.modelos.Producto;
 import com.back.estfood.servicios.ProductoServicio;
 import com.back.estfood.validaciones.RespuestaAccion;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class ProductoControlador {
@@ -31,7 +31,7 @@ public class ProductoControlador {
 	@Autowired
 	private RespuestaAccion respuestaAccion;
 	
-	@GetMapping
+	@GetMapping("producto")
 	public ResponseEntity<?> listar(){
 		
 		List<Producto> listaProductos= productoServicio.listar();
