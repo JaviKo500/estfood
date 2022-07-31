@@ -25,6 +25,10 @@ public class ProductoServicio {
 	public Producto buscarPorId(Long id) {
 		return productoRepo.findById(id).orElse(null);
 	}
+	@Transactional(readOnly = true)
+	public List<Producto> listarProductoPorTermino(String termino){
+		return productoRepo.findAllProductosByTermino(termino);
+	}
 	
 	@Transactional(readOnly = true)
 	public Producto buscarPorCodigo(String cod) {

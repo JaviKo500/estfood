@@ -55,6 +55,18 @@ public class ProductoControlador {
 		return respuestaAccion.accionCumplida(true, "Datos del producto", producto);
 	}
 	
+	@GetMapping("producto/buscar/{termino}")
+	public ResponseEntity<?> listar(@PathVariable String termino){
+		
+		List<Producto> listaProductos= productoServicio.listarProductoPorTermino(termino);
+		
+		if (listaProductos.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe productos", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "productos", listaProductos);
+	}
+	
 	@PostMapping("/producto")
 	public ResponseEntity<?> guardarProducto(@RequestBody Producto producto) {
 		Producto nuevoProdcto = null;
@@ -88,7 +100,7 @@ public class ProductoControlador {
 		// si existe otro producto con el mismo codigo
 		Producto prodCodigo = productoServicio.buscarPorCodigo(producto.getCodigoProducto());
 		if (prodCodigo != null && prodCodigo.getIdProducto() != id) {
-			return respuestaAccion.errorBD(false, "Ya existe un producto con ese código", "Código existente");
+			return respuestaAccion.datoDuplicado(false, "Ya existe un producto con ese código", "Código existente");
 		}
 		
 		try {
@@ -135,7 +147,6 @@ public class ProductoControlador {
 		return respuestaAccion.accionCumplida(true, "Estado actualizado", prodActualizado);
 	}
 	
-	// para desactivar la tarjeta como inactivo
 	@DeleteMapping("/producto/{id}")
 	public ResponseEntity<?> borrarProducto(@PathVariable Long id){
 		
