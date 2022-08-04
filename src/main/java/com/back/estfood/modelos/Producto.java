@@ -36,10 +36,12 @@ public class Producto  implements Serializable{
 	
 	@Column(unique = true)
 	private String codigoProducto;
+	private String imgProducto;
 	private Double ivaProducto;
 	private Double precioVentaProducto;
 	private Integer stockProducto;
 	private Boolean estadoProducto;
+	private Boolean menuClienteProducto;
 		
 	/* Relaciones */
 	
@@ -58,7 +60,4 @@ public class Producto  implements Serializable{
 	@JoinColumn(name = "id_zona")
 	private Zona zona;
 	
-	
-	
-
 }
