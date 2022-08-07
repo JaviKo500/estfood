@@ -1,7 +1,6 @@
 package com.back.estfood.modelos;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -28,9 +25,11 @@ public class Proveedor implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProveedor;
-	
-	private String descripcionProveedor;
 	private String nombreProveedor;
+	
+	private String emailProveedor;
+	private String movilProveedor;
+	private String telefonoProveedor;
 
 	@Column(unique = true)
 	private String rucProveedor;
@@ -38,13 +37,10 @@ public class Proveedor implements Serializable{
 	private String direccionProveedor;
 	private Boolean estadoProveedor;
 	
-	@Temporal(TemporalType.DATE)
-	private Date fechaIngresoProveedor;
-	
 	/* Relaciones */
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_ciudad")
-	private Ciudad ciudad;
+	@JoinColumn(name = "id_detalle_proveedor")
+	private DetalleProveedor detalleProveedor;
 }

@@ -104,11 +104,12 @@ public class ProveedorControlador {
 		try {
 			
 			provActual.setNombreProveedor(proveedor.getNombreProveedor());
-			provActual.setDescripcionProveedor(proveedor.getDescripcionProveedor());
-			provActual.setDireccionProveedor(proveedor.getDireccionProveedor());
 			provActual.setRucProveedor(proveedor.getRucProveedor());
-			provActual.setFechaIngresoProveedor(proveedor.getFechaIngresoProveedor());
-			provActual.setCiudad(proveedor.getCiudad());
+			provActual.setDireccionProveedor(proveedor.getDireccionProveedor());
+			provActual.setEmailProveedor(proveedor.getEmailProveedor());
+			provActual.setMovilProveedor(proveedor.getMovilProveedor());
+			provActual.setTelefonoProveedor(proveedor.getTelefonoProveedor());
+			provActual.setDetalleProveedor(proveedor.getDetalleProveedor());
 			provActualizado = proveedorServicio.guardar(provActual);
 			
 		} catch (DataAccessException e) {
