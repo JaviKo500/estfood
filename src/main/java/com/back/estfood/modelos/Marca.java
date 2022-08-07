@@ -19,6 +19,5 @@ public class Marca implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idMarca;
 	private String nombreMarca;
-	private String descripcionMarca;
 	
 }

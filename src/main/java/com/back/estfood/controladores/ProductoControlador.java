@@ -157,7 +157,6 @@ public class ProductoControlador {
 			prodActual.setDescripcionProducto(producto.getDescripcionProducto());
 			prodActual.setEstadoProducto(producto.getEstadoProducto());
 			prodActual.setFechaIngreso(producto.getFechaIngreso());
-			prodActual.setIvaProducto(producto.getIvaProducto());
 			prodActual.setPrecioVentaProducto(producto.getPrecioVentaProducto());
 			prodActual.setStockProducto(producto.getStockProducto());
 			prodActual.setMarca(producto.getMarca());
@@ -184,7 +183,6 @@ public class ProductoControlador {
 		}
 
 		try {
-			
 			prodActual.setEstadoProducto(!prodActual.getEstadoProducto());
 			prodActualizado = productoServicio.guardar(prodActual);
 			
@@ -230,7 +228,7 @@ public class ProductoControlador {
 					e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 
 		}
-		return respuestaAccion.accionCumplida(true, "Producto borrado", "borrada");
+		return respuestaAccion.accionCumplida(true, "Producto borrado", "borrado");
 	}
 	
 	

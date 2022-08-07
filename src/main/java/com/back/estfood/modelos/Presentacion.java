@@ -19,5 +19,4 @@ public class Presentacion implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPresentacion;
 	private String nombrePresentacion;
-	private String descripcionPresentacion;
 }

@@ -21,8 +21,6 @@ public class Zona implements Serializable{
 	private Long idZona;
 	
 	private String nombreZona;
-	
-	private String descripcionZona;
-	
+		
 	
 }
