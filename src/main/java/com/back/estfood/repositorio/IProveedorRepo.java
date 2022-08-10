@@ -12,6 +12,7 @@ import com.back.estfood.modelos.Proveedor;
 public interface IProveedorRepo extends JpaRepository<Proveedor, Long>{
 	
 	public Proveedor findByRucProveedor(String rucProveedor);
+	public List<Proveedor> findByEstadoProveedor(Boolean estadoProveedor);
 	
 	@Query (value = "select p from Proveedor p where lower(p.nombreProveedor)   like %?1%")
 	public List<Proveedor> findAllProveedoresByTermino(String termino);

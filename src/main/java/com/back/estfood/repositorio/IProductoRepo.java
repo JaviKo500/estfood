@@ -12,6 +12,7 @@ import com.back.estfood.modelos.Producto;
 public interface IProductoRepo extends JpaRepository<Producto, Long>{
 	
 	public Producto findByCodigoProducto(String codigoProducto);
+	public List<Producto> findByEstadoProducto(Boolean estadoProducto);
 	
 	@Query (value = "select p from Producto p where lower(p.descripcionProducto)   like %?1%")
 	public List<Producto> findAllProductosByTermino(String termino);

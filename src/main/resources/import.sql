@@ -31,3 +31,5 @@ INSERT INTO proveedor (direccion_proveedor, email_proveedor, estado_proveedor, m
 
 INSERT INTO proveedor (direccion_proveedor, email_proveedor, estado_proveedor, movil_proveedor, nombre_proveedor, ruc_proveedor, telefono_proveedor, id_detalle_proveedor) VALUES ('Ricaurte', 'megamaxi2022@gmail.com', true, '0993728565', 'Megamaxi', '0150399327001', '', 3 );
 
+INSERT INTO forma_pago (nombre_forma_pago) VALUES ('Crédito');
+INSERT INTO forma_pago (nombre_forma_pago) VALUES ('Efectivo');

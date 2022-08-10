@@ -31,6 +31,11 @@ public class ProductoServicio {
 	}
 	
 	@Transactional(readOnly = true)
+	public List<Producto> listarProductoPorEstado(){
+		return productoRepo.findByEstadoProducto(true);
+	}
+	
+	@Transactional(readOnly = true)
 	public Producto buscarPorCodigo(String cod) {
 		return productoRepo.findByCodigoProducto(cod);
 	}

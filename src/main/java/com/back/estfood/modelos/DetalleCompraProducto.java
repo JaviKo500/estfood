@@ -26,7 +26,6 @@ public class DetalleCompraProducto implements Serializable{
 	
 	private Integer cantidadDetalleCompraProducto; 
 	private Double precioDetalleCompraProducto; 
-	private Double descuentoDetalleCompraProducto; 
 	private Double totalDetalleCompraProducto;
 	private Double ivaDetalleCompraProducto;
 	

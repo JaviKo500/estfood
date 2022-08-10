@@ -56,6 +56,18 @@ public class ProductoControlador {
 		return respuestaAccion.accionCumplida(true, "productos", listaProductos);
 	}
 	
+	@GetMapping("producto/estado")
+	public ResponseEntity<?> listarPorEstado(){
+		
+		List<Producto> listaProductos= productoServicio.listarProductoPorEstado();
+		
+		if (listaProductos.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe productos", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "productos", listaProductos);
+	}
+	
 	@GetMapping("/producto/{id}")
 	public ResponseEntity<?> buscarProductoPorId(@PathVariable Long id) {
 

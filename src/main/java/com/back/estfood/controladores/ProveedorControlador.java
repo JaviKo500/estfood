@@ -41,6 +41,18 @@ public class ProveedorControlador {
 		return respuestaAccion.accionCumplida(true, "proveedores", listaProveedores);
 	}
 	
+	@GetMapping("proveedor/estado")
+	public ResponseEntity<?> listarPorEstado(){
+		
+		List<Proveedor> listaProveedores= proveedorServicio.listarProveedoresPorEstado();
+		
+		if (listaProveedores.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe proveedores", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "proveedores", listaProveedores);
+	}
+	
 	@GetMapping("/proveedor/{id}")
 	public ResponseEntity<?> buscarProveedorPorId(@PathVariable Long id) {
 

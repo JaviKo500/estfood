@@ -31,6 +31,11 @@ public class ProveedorServicio {
 	}
 	
 	@Transactional(readOnly = true)
+	public List<Proveedor> listarProveedoresPorEstado(){
+		return proveedorRepo.findByEstadoProveedor(true);
+	}
+	
+	@Transactional(readOnly = true)
 	public Proveedor buscarPorRuc(String cod) {
 		return proveedorRepo.findByRucProveedor(cod);
 	}
