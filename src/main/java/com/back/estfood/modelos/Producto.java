@@ -39,6 +39,7 @@ public class Producto  implements Serializable{
 	private String imgProducto;
 	private Double precioVentaProducto;
 	private Integer stockProducto;
+	private Integer stockAnteriorProducto;
 	private Boolean estadoProducto;
 	private Boolean menuClienteProducto;
 		

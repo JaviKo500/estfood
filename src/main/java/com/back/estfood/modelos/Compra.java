@@ -34,6 +34,9 @@ public class Compra implements Serializable{
 	@Column(unique = true)
 	private String codigoCompra;
 	private Double totalCompra;
+	private Double ivaCompra;
+	private Double ivaTotalCompra;
+	private Double subTotalCompra;
 	private Boolean estadoCompra;
 	
 	

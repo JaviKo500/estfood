@@ -1,5 +1,6 @@
 package com.back.estfood.controladores;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.back.estfood.modelos.Compra;
+import com.back.estfood.modelos.Producto;
 import com.back.estfood.servicios.CompraServicio;
+import com.back.estfood.servicios.ProductoServicio;
 import com.back.estfood.validaciones.RespuestaAccion;
 
 @CrossOrigin("*")
@@ -26,6 +29,8 @@ public class CompraControlador {
 	
 	@Autowired
 	private CompraServicio compraServicio;
+	@Autowired 
+	private ProductoServicio productoServicio;
 	@Autowired
 	private RespuestaAccion respuestaAccion;
 	
@@ -76,6 +81,15 @@ public class CompraControlador {
 		}
 		// creamos producto
 		try {
+			Producto producto = null;
+			for (int j = 0; j < compra.getItems().size(); j++) {
+				producto = productoServicio.buscarPorId(compra.getItems().get(j).getProducto().getIdProducto());
+				int stockAct = producto.getStockProducto();
+				int nuevoStock = stockAct + compra.getItems().get(j).getCantidadDetalleCompraProducto();
+				producto.setStockAnteriorProducto(stockAct);
+				producto.setStockProducto(nuevoStock);
+				productoServicio.guardar(producto);
+			}
 			nuevaCompra = compraServicio.guardar(compra);
 		} catch (DataAccessException e) {
 			return respuestaAccion.errorBD(false, "Error al guardar la compra",
@@ -106,7 +120,11 @@ public class CompraControlador {
 			compraActual.setCodigoCompra(compra.getCodigoCompra());
 			compraActual.setFechaCompra(compra.getFechaCompra());
 			compraActual.setFormaPago(compra.getFormaPago());
+			compraActual.setProveedor(compra.getProveedor());
+			compraActual.setIvaCompra(compra.getIvaCompra());
 			compraActual.setTotalCompra(compra.getTotalCompra());
+			compraActual.setIvaTotalCompra(compra.getIvaTotalCompra());
+			compraActual.setSubTotalCompra(compra.getSubTotalCompra());
 			compraActual.setItems(compra.getItems());
 			compraActualizado = compraServicio.guardar(compraActual);
 			
@@ -141,7 +159,15 @@ public class CompraControlador {
 	
 	@DeleteMapping("compra/{id}")
 	public ResponseEntity<?> borrarCompra(@PathVariable Long id){
+		Compra compra = compraServicio.buscarPorId(id);
 		try {
+			Producto producto = null;
+			for (int j = 0; j < compra.getItems().size(); j++) {
+				producto = productoServicio.buscarPorId(compra.getItems().get(j).getProducto().getIdProducto());
+				int stockAnt = producto.getStockAnteriorProducto();
+				producto.setStockProducto(stockAnt);
+				productoServicio.guardar(producto);
+			}
 			compraServicio.eliminar(id);
 		} catch (DataAccessException e) {
 			return respuestaAccion.errorBD(false, "Error al borrar el compra",
