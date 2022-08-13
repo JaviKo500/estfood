@@ -40,3 +40,11 @@ INSERT INTO tipo_cliente (descripcion_tipo_cliente) VALUES ('Externo'   );
 
 
 
+
+INSERT INTO persona (nombres_persona, apellidos_persona, cedula_persona, email_persona) VALUES  ('Juan', 'Barrera', '0107081580', 'juan32barrera@gmail.com');
+INSERT INTO persona (nombres_persona, apellidos_persona, cedula_persona, email_persona) VALUES  ('Beatriz', 'Velasquez', '0103976031', 'velasquez434B@gmail.com');
+INSERT INTO persona (nombres_persona, apellidos_persona, cedula_persona, email_persona) VALUES  ('Pedro', 'Martinez', '0150399327', 'P1998Martinez@gmail.com');
+
+INSERT INTO cliente (estado_cliente, telefono_cliente, id_persona, id_tipo_cliente) VALUES (true, '0965201148', 1, 2 );
+INSERT INTO cliente (estado_cliente, telefono_cliente, id_persona, id_tipo_cliente) VALUES (true, '0965852323', 2, 1 );
+INSERT INTO cliente (estado_cliente, telefono_cliente, id_persona, id_tipo_cliente) VALUES (true, '0965853210', 3, 3 );
