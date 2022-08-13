@@ -2,6 +2,7 @@ package com.back.estfood.modelos;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ public class Cliente implements Serializable{
 	private Long idCliente;
 	
 	private String telefonoCliente;
+	private Boolean estadoCliente;
 		
 	/* Relaciones */
 	
@@ -33,9 +35,9 @@ public class Cliente implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_cliente")
 	private TipoCliente tipoCliente;
-	
+		
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_persona")
 	private Persona persona;
 

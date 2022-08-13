@@ -107,7 +107,7 @@ public class ProveedorControlador {
 		if (provActual == null) {
 			return respuestaAccion.datoNulo(false, "No existe en la Base de Datos", "id inválido");
 		}
-		// si existe otro producto con el mismo codigo
+		// si existe otro proveedor con el mismo codigo
 		Proveedor provCodigo = proveedorServicio.buscarPorRuc(proveedor.getRucProveedor());
 		if (provCodigo != null && provCodigo.getIdProveedor() != id) {
 			return respuestaAccion.datoDuplicado(false, "Ya existe un proveedor con ese ruc", "Ruc existente");
