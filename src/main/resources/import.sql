@@ -34,9 +34,9 @@ INSERT INTO proveedor (direccion_proveedor, email_proveedor, estado_proveedor, m
 INSERT INTO forma_pago (nombre_forma_pago) VALUES ('Efectivo');
 INSERT INTO forma_pago (nombre_forma_pago) VALUES ('Crédito');
 
-INSERT INTO tipo_cliente (descripcion_tipo_cliente) VALUES ('Docente'   );
+INSERT INTO tipo_cliente (descripcion_tipo_cliente) VALUES ('Docente');
 INSERT INTO tipo_cliente (descripcion_tipo_cliente) VALUES ('Estudiante');
-INSERT INTO tipo_cliente (descripcion_tipo_cliente) VALUES ('Externo'   );
+INSERT INTO tipo_cliente (descripcion_tipo_cliente) VALUES ('Externo');
 
 
 
