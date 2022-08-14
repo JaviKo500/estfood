@@ -79,7 +79,7 @@ public class ClienteControlador {
 	
 	@PostMapping("cliente")
 	public ResponseEntity<?> guardarCliente(@RequestBody Cliente cliente) {
-		Cliente nuevocliente = null;
+		Cliente nuevoCliente = null;
 		
 		// validamos que no exista el misma cedula
 		Cliente clienteCedula = clienteServicio.buscarPorCedula(cliente.getPersona().getCedulaPersona());
@@ -88,13 +88,13 @@ public class ClienteControlador {
 		}
 		// creamos cliente
 		try {
-			nuevocliente = clienteServicio.guardar(cliente);
+			nuevoCliente = clienteServicio.guardar(cliente);
 		} catch (DataAccessException e) {
 			return respuestaAccion.errorBD(false, "Error al guardar el cliente",
 					e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 		}
 
-		return respuestaAccion.accionCumplida(true, "Cliente guardado", nuevocliente);
+		return respuestaAccion.accionCumplida(true, "Cliente guardado", nuevoCliente);
 	}
 	
 	@PutMapping("cliente/{id}")

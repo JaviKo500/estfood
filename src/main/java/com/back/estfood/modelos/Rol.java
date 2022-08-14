@@ -20,4 +20,5 @@ public class Rol implements Serializable{
 	private Long idRol;
 	
 	private String nombreRol;
+	private String descripcionRol;
 }

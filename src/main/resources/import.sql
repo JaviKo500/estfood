@@ -48,3 +48,7 @@ INSERT INTO persona (nombres_persona, apellidos_persona, cedula_persona, email_p
 INSERT INTO cliente (estado_cliente, telefono_cliente, id_persona, id_tipo_cliente) VALUES (true, '0965201148', 1, 2 );
 INSERT INTO cliente (estado_cliente, telefono_cliente, id_persona, id_tipo_cliente) VALUES (true, '0965852323', 2, 1 );
 INSERT INTO cliente (estado_cliente, telefono_cliente, id_persona, id_tipo_cliente) VALUES (true, '0965853210', 3, 3 );
+
+INSERT INTO rol (descripcion_rol, nombre_rol) VALUES ('Administrador', 'ROLE_ADMINISTRADOR');
+INSERT INTO rol (descripcion_rol, nombre_rol) VALUES ('Vendedor', 'ROLE_VENDEDOR');
+INSERT INTO rol (descripcion_rol, nombre_rol) VALUES ('Inventario', 'ROLE_INVENTARIO');

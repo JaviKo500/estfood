@@ -17,5 +17,5 @@ public interface IClienteRepo extends JpaRepository<Cliente, Long>{
 	public List<Cliente> findByEstadoCliente(Boolean estadoCliente);
 	
 	@Query (value = "select c from Cliente c where c.persona.cedulaPersona = ?1")
-	public Cliente findByCedulaCliente(String rucProveedor);
+	public Cliente findByCedulaCliente(String cedulaCliente);
 }
