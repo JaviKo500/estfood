@@ -34,6 +34,13 @@ public class RespuestaAccion {
 		response.put("respuesta", datos);
 		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
 	}
+	public ResponseEntity<?> accionIncumplida(Boolean ok, String mensaje, Object error ){
+		Map<String, Object> response = new HashMap<>();
+		response.put("ok", ok);
+		response.put("mensaje", mensaje);
+		response.put("error", error);
+		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.BAD_REQUEST);
+	}
 	public ResponseEntity<?> datoNulo(Boolean ok, String mensaje, String error ){
 		Map<String, Object> response = new HashMap<>();
 		response.put("ok", ok);

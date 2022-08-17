@@ -49,6 +49,8 @@ public class ProductoServicio {
 	public void eliminar(Long id) {
 		productoRepo.deleteById(id);
 	}
+	
+	
 	 
 	
 }

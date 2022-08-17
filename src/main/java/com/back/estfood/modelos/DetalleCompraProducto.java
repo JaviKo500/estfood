@@ -35,5 +35,4 @@ public class DetalleCompraProducto implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_producto")
 	private Producto producto;
-
 }
