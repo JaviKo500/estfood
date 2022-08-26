@@ -15,4 +15,7 @@ public interface IVentaRepo extends JpaRepository<Venta, Long>{
 	
 	@Query (value = "select v from Venta v where lower(v.codigoVenta)   like %?1%")
 	public List<Venta> findAllVentasByTermino(String termino);
+	
+	@Query (value = "select v from Venta v where v.idVenta = (select max(ven.idVenta) from Venta ven)")
+	public Venta findLastVenta();
 }

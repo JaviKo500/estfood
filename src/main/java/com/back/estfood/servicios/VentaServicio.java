@@ -23,6 +23,12 @@ public class VentaServicio {
 	public Venta buscarPorId(Long id) {
 		return ventaRepo.findById(id).orElse(null);
 	}
+	
+	@Transactional(readOnly = true)
+	public Venta ultimaVenta() {
+		return ventaRepo.findLastVenta();
+	}
+	
 	@Transactional(readOnly = true)
 	public List<Venta> listarVentasPorTermino(String termino){
 		return ventaRepo.findAllVentasByTermino(termino);

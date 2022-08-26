@@ -56,6 +56,18 @@ public class VentaControlador {
 		return respuestaAccion.accionCumplida(true, "Datos de la venta", venta);
 	}
 	
+	@GetMapping("venta/ultima")
+	public ResponseEntity<?> buscarUltimaVenta() {
+
+		Venta venta = ventaServicio.ultimaVenta();
+		
+		if (venta == null) {
+			return respuestaAccion.datoNulo(false, "No existe venta", "vacio");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "Datos de la venta", venta);
+	}
+	
 	@GetMapping("venta/buscar/{termino}")
 	public ResponseEntity<?> listar(@PathVariable String termino){
 		
