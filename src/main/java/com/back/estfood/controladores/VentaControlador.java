@@ -1,5 +1,6 @@
 package com.back.estfood.controladores;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,10 +126,8 @@ public class VentaControlador {
 		}
 		
 		try {
-			
-			//actualizarStockProductoEditar(venta, ventaActual);
+			actualizarStockProductoEditar(venta, ventaActual);
 			 
-			
 			ventaActual.setCodigoVenta(venta.getCodigoVenta());
 			ventaActual.setFechaVenta(venta.getFechaVenta());
 			ventaActual.setCliente(venta.getCliente());
@@ -143,6 +142,28 @@ public class VentaControlador {
 		return respuestaAccion.accionCumplida(true, "Venta actualizada", ventaActualizado);
 	}
 	
+	@PutMapping("/venta/fecha/{id}")
+	public ResponseEntity<?> actualizarFechaVenta(@PathVariable Long id, @RequestBody Date fecha) {
+		
+		Venta ventaActual = ventaServicio.buscarPorId(id);
+		Venta ventaActualizado = null;
+		
+		// si la Venta no existe
+		if (ventaActual == null) {
+			return respuestaAccion.datoNulo(false, "No existe en la Base de Datos", "id inválido");
+		}
+
+		try {
+			ventaActual.setFechaVenta(fecha);
+			ventaActualizado = ventaServicio.guardar(ventaActual);
+			
+		} catch (DataAccessException e) {
+			return respuestaAccion.errorBD(false, "Error al actualizar la venta",
+					e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+		}
+		return respuestaAccion.accionCumplida(true, "Estado venta", ventaActualizado);
+	}
+	
 	@PutMapping("/venta/estado/{id}")
 	public ResponseEntity<?> actualizarEstadoVenta(@PathVariable Long id) {
 		
@@ -155,6 +176,7 @@ public class VentaControlador {
 		}
 
 		try {
+			actualizarStockEliminarProducto(ventaActual);
 			ventaActual.setEstadoVenta(!ventaActual.getEstadoVenta());
 			ventaActualizado = ventaServicio.guardar(ventaActual);
 			
@@ -167,13 +189,11 @@ public class VentaControlador {
 	
 	@DeleteMapping("venta/{id}")
 	public ResponseEntity<?> borrarVenta(@PathVariable Long id){
-		//Venta venta = ventaServicio.buscarPorId(id);
+		Venta venta = ventaServicio.buscarPorId(id);
 		try {
-			//List<Producto> productos = verificarStockProducto(venta);
-			//if (productos.size() > 0) {
-				//return respuestaAccion.accionIncumplida(false, "error", productos);
-			//}
-			//actualizarStockEliminarProducto(venta);
+			if( venta.getEstadoVenta() ) {
+				actualizarStockEliminarProducto(venta);
+			}
 			ventaServicio.eliminar(id);
 		} catch (DataAccessException e) {
 			return respuestaAccion.errorBD(false, "Error al borrar el venta",
@@ -181,6 +201,48 @@ public class VentaControlador {
 
 		}
 		return respuestaAccion.accionCumplida(true, "Venta borrada", "borrada");
+	}
+	
+	public void actualizarStockEliminarProducto(Venta venta ) {
+		Producto producto = null;
+		for (int j = 0; j < venta.getItems().size(); j++) {
+			producto = productoServicio.buscarPorId(venta.getItems().get(j).getProducto().getIdProducto());
+			int cantidadVenta = venta.getItems().get(j).getCantidadDetalleProductoVenta();
+			int stockActual = producto.getStockProducto();
+			int stock = stockActual + cantidadVenta;
+			producto.setStockProducto(stock);
+			productoServicio.guardar(producto);
+		}
+	}
+	
+	public void actualizarStockProductoEditar(Venta venta, Venta ventaActual ) {
+		Producto producto = null;
+		for (int i = 0; i < venta.getItems().size(); i++) {
+			for (int j = 0; j < ventaActual.getItems().size(); j++) {
+				if(venta.getItems().get(i).getIdDetalleVentaPro() == ventaActual.getItems().get(j).getIdDetalleVentaPro()) {
+					producto = productoServicio.buscarPorId(venta.getItems().get(i).getProducto().getIdProducto());
+					int cantVenta = venta.getItems().get(i).getCantidadDetalleProductoVenta();
+					int cantVentaAct = ventaActual.getItems().get(j).getCantidadDetalleProductoVenta();
+					int stockActual = producto.getStockProducto();
+					int cant = 0;
+					int stock = 0;
+					if(cantVenta > cantVentaAct ) {
+						cant = cantVenta - cantVentaAct;				
+						stock = stockActual - cant;
+					} else if (cantVenta < cantVentaAct){
+						cant = cantVentaAct - cantVenta;
+						stock = stockActual + cant;
+						if(stock < 0) {
+							stock = 0;
+						}
+					} else {
+						stock = stockActual;
+					}
+					producto.setStockProducto(stock);
+					productoServicio.guardar(producto);
+				}
+			}
+		}
 	}
 	
 }

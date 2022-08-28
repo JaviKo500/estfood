@@ -75,7 +75,7 @@ public class CompraControlador {
 		Compra nuevaCompra = null;
 		
 		// validamos que no exista el mismo codigo
-		Compra compraCodigo = compraServicio.buscarPorCodigoCompra(compra.getCodigoCompra());
+		Compra compraCodigo = compraServicio.buscarPorCodigoCompra(compra.getCodigoCompra(), compra.getProveedor());
 		if (compraCodigo != null) {
 			return respuestaAccion.datoDuplicado(false, "Hay una compra con ese código", "Código existente");
 		}
@@ -110,7 +110,7 @@ public class CompraControlador {
 			return respuestaAccion.datoNulo(false, "No existe en la Base de Datos", "id inválido");
 		}
 		// si existe otro producto con el mismo codigo
-		Compra compraCodigo = compraServicio.buscarPorCodigoCompra(compra.getCodigoCompra());
+		Compra compraCodigo = compraServicio.buscarPorCodigoCompra(compra.getCodigoCompra(), compra.getProveedor());
 		if (compraCodigo != null && compraCodigo.getIdCompra() != id) {
 			return respuestaAccion.datoDuplicado(false, "Ya existe una compra con ese código", "Código existente");
 		}
@@ -214,7 +214,6 @@ public class CompraControlador {
 					int stockActual = producto.getStockProducto();
 					int cant = 0;
 					int stock = 0;
-					System.out.println(cantCompra+  " - " + cantCompraAct);
 					if(cantCompra > cantCompraAct ) {
 						cant = cantCompra - cantCompraAct;				
 						stock = stockActual + cant;

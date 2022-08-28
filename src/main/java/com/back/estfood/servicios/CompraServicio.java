@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.back.estfood.modelos.Compra;
+import com.back.estfood.modelos.Proveedor;
 import com.back.estfood.repositorio.ICompraRepo;
 
 @Service
@@ -29,8 +30,8 @@ public class CompraServicio {
 	}
 	
 	@Transactional(readOnly = true)
-	public Compra buscarPorCodigoCompra(String cod) {
-		return compraRepo.findByCodigoCompra(cod);
+	public Compra buscarPorCodigoCompra(String cod, Proveedor proveedor) {
+		return compraRepo.findByCodigoCompraAndProveedor(cod, proveedor);
 	}
 	
 	@Transactional()
