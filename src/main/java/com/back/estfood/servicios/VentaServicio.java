@@ -1,5 +1,6 @@
 package com.back.estfood.servicios;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,21 @@ public class VentaServicio {
 	@Transactional(readOnly = true)
 	public List<Venta> listarVentasPorTermino(String termino){
 		return ventaRepo.findAllVentasByTermino(termino);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Venta> listarVentasPorEstado(){
+		return ventaRepo.findByEstadoVenta(true);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Venta> listarVentasClientePorTermino(String termino){
+		return ventaRepo.findAllVentasClienteByTermino(termino);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Venta> listarVentasPorFechas(Date fechaInicio, Date fechaFin){
+		return ventaRepo.findByEstadoVentaAndFechaVentaBetween(true, fechaInicio, fechaFin);
 	}
 	
 	@Transactional(readOnly = true)

@@ -1,6 +1,7 @@
 package com.back.estfood.servicios;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class ProductoServicio {
 	@Transactional(readOnly = true)
 	public List<Producto> listarProductoPorEstado(){
 		return productoRepo.findByEstadoProducto(true);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Producto> listarProductoPorFechas(Date fechaInicio, Date fechaFin){
+		return productoRepo.findByEstadoProductoAndFechaIngresoBetween(true, fechaInicio, fechaFin);
 	}
 	
 	@Transactional(readOnly = true)

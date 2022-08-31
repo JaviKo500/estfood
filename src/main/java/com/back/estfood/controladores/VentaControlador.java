@@ -45,6 +45,18 @@ public class VentaControlador {
 		return respuestaAccion.accionCumplida(true, "ventas", listaVentas);
 	}
 	
+	@GetMapping("venta/estado")
+	public ResponseEntity<?> listarPorEstado(){
+		
+		List<Venta> listaVentas= ventaServicio.listarVentasPorEstado();
+		
+		if (listaVentas.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe ventas", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "ventas", listaVentas);
+	}
+	
 	@GetMapping("venta/{id}")
 	public ResponseEntity<?> buscarVentaPorId(@PathVariable Long id) {
 
@@ -73,6 +85,31 @@ public class VentaControlador {
 	public ResponseEntity<?> listar(@PathVariable String termino){
 		
 		List<Venta> listaVentas= ventaServicio.listarVentasPorTermino(termino);
+		
+		if (listaVentas.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe ventas", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "ventas", listaVentas);
+	}
+	
+	@GetMapping("venta/buscar/cedula/{termino}")
+	public ResponseEntity<?> listarVentaPorCedula(@PathVariable String termino){
+		
+		List<Venta> listaVentas= ventaServicio.listarVentasClientePorTermino(termino);
+		
+		if (listaVentas.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe ventas", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "ventas", listaVentas);
+	}
+	
+	@GetMapping("venta/fechas/{fechaInicio}/{fechaFin}")
+	public ResponseEntity<?> buscarVentasPorFechas(@PathVariable Date fechaInicio, 
+			@PathVariable Date fechaFin) {
+		
+		List<Venta> listaVentas= ventaServicio.listarVentasPorFechas(fechaInicio, fechaFin);
 		
 		if (listaVentas.size() == 0) {
 			return respuestaAccion.listaDatosVacia(false, "No existe ventas", "tabla vacía");

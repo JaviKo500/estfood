@@ -1,5 +1,6 @@
 package com.back.estfood.repositorio;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,13 @@ public interface IVentaRepo extends JpaRepository<Venta, Long>{
 	@Query (value = "select v from Venta v where lower(v.codigoVenta)   like %?1%")
 	public List<Venta> findAllVentasByTermino(String termino);
 	
+	public List<Venta> findByEstadoVenta(Boolean estadoVenta);
+	
+	@Query (value = "select v from Venta v where lower(v.cliente.persona.cedulaPersona) like %?1% and v.estadoVenta = true")
+	public List<Venta> findAllVentasClienteByTermino(String termino);
+	
 	@Query (value = "select v from Venta v where v.idVenta = (select max(ven.idVenta) from Venta ven)")
 	public Venta findLastVenta();
+	
+	public List<Venta> findByEstadoVentaAndFechaVentaBetween( Boolean estado, Date fechaInicio, Date fechaFin);
 }

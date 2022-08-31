@@ -1,6 +1,7 @@
 package com.back.estfood.controladores;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,18 @@ public class CompraControlador {
 		return respuestaAccion.accionCumplida(true, "compras", listaCompras);
 	}
 	
+	@GetMapping("compra/estado")
+	public ResponseEntity<?> listarPorEstado(){
+		
+		List<Compra> listaCompras= compraServicio.listarComprasPorEstado();
+		
+		if (listaCompras.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe compras", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "compras", listaCompras);
+	}
+	
 	@GetMapping("compra/{id}")
 	public ResponseEntity<?> buscarCompraPorId(@PathVariable Long id) {
 
@@ -62,6 +75,31 @@ public class CompraControlador {
 	public ResponseEntity<?> listar(@PathVariable String termino){
 		
 		List<Compra> listaCompras= compraServicio.listarComprasPorTermino(termino);
+		
+		if (listaCompras.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe compras", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "compras", listaCompras);
+	}
+	
+	@GetMapping("compra/buscar/ruc/{termino}")
+	public ResponseEntity<?> listarCompraPorRuc(@PathVariable String termino){
+		
+		List<Compra> listaCompras= compraServicio.listarComprasProveedorPorTermino(termino);
+		
+		if (listaCompras.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe compras", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "compras", listaCompras);
+	}
+	
+	@GetMapping("compra/fechas/{fechaInicio}/{fechaFin}")
+	public ResponseEntity<?> buscarComprasPorFechas(@PathVariable Date fechaInicio, 
+			@PathVariable Date fechaFin) {
+		
+		List<Compra> listaCompras= compraServicio.listarComprasPorFechas(fechaInicio, fechaFin);
 		
 		if (listaCompras.size() == 0) {
 			return respuestaAccion.listaDatosVacia(false, "No existe compras", "tabla vacía");

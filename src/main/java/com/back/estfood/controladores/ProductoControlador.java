@@ -1,6 +1,7 @@
 package com.back.estfood.controladores;
 
 import java.net.MalformedURLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +79,19 @@ public class ProductoControlador {
 		}
 		
 		return respuestaAccion.accionCumplida(true, "Datos del producto", producto);
+	}
+	
+	@GetMapping("/producto/fechas/{fechaInicio}/{fechaFin}")
+	public ResponseEntity<?> buscarProductoPorFechas(@PathVariable Date fechaInicio, 
+			@PathVariable Date fechaFin) {
+
+		List<Producto> listaProductos= productoServicio.listarProductoPorFechas(fechaInicio, fechaFin);
+		
+		if (listaProductos.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe productos", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "productos", listaProductos);
 	}
 	
 	@GetMapping("producto/buscar/{termino}")

@@ -1,5 +1,6 @@
 package com.back.estfood.servicios;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,22 @@ public class CompraServicio {
 		return compraRepo.findById(id).orElse(null);
 	}
 	@Transactional(readOnly = true)
+	public List<Compra> listarComprasPorEstado(){
+		return compraRepo.findByEstadoCompra(true);
+	}
+	@Transactional(readOnly = true)
 	public List<Compra> listarComprasPorTermino(String termino){
 		return compraRepo.findAllComprasByTermino(termino);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Compra> listarComprasProveedorPorTermino(String termino){
+		return compraRepo.findAllComprasProveedorByTermino(termino);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Compra> listarComprasPorFechas(Date fechaInicio, Date fechaFin){
+		return compraRepo.findByEstadoCompraAndFechaCompraBetween(true, fechaInicio, fechaFin);
 	}
 	
 	@Transactional(readOnly = true)

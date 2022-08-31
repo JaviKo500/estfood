@@ -1,5 +1,6 @@
 package com.back.estfood.repositorio;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,6 @@ public interface IProductoRepo extends JpaRepository<Producto, Long>{
 	
 	@Query (value = "select p from Producto p where lower(p.descripcionProducto)   like %?1%")
 	public List<Producto> findAllProductosByTermino(String termino);
+	
+	public List<Producto> findByEstadoProductoAndFechaIngresoBetween( Boolean estado, Date fechaInicio, Date fechaFin);
 }
