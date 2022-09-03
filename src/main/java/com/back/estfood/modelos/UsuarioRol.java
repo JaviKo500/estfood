@@ -26,7 +26,7 @@ public class UsuarioRol implements Serializable{
 	
 	/* Relaciones */
 	
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties(value = {"roles", "hibernateLazyInitializer", "handler"}, allowSetters = true)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;

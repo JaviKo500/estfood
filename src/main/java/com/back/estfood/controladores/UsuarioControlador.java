@@ -1,10 +1,12 @@
 package com.back.estfood.controladores;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,13 +30,17 @@ public class UsuarioControlador {
 	private UsuarioService usuarioServicio;
 	@Autowired
 	private RespuestaAccion respuestaAccion;
-	//@Autowired
-	//private BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@GetMapping("usuario")
 	public ResponseEntity<?> listar(){
 		
 		List<Usuario> listaUsuarios = usuarioServicio.listar();
+		listaUsuarios = listaUsuarios.stream().map(usuario -> {
+			usuario.setPasswordUsuario("");
+			return usuario;
+		}).collect(Collectors.toList());
 		
 		if (listaUsuarios.size() == 0) {
 			return respuestaAccion.listaDatosVacia(false, "No existe usuarios", "tabla vacía");
@@ -47,7 +53,10 @@ public class UsuarioControlador {
 	public ResponseEntity<?> listarPorEstado(){
 		
 		List<Usuario> listaUsuarios = usuarioServicio.listarUsuariosPorEstado();
-		
+		listaUsuarios = listaUsuarios.stream().map(usuario -> {
+			usuario.setPasswordUsuario("");
+			return usuario;
+		}).collect(Collectors.toList());
 		if (listaUsuarios.size() == 0) {
 			return respuestaAccion.listaDatosVacia(false, "No existe usuarios", "tabla vacía");
 		}
@@ -59,10 +68,10 @@ public class UsuarioControlador {
 	public ResponseEntity<?> buscarUsuarioPorId(@PathVariable Long id) {
 
 		Usuario usuario = usuarioServicio.buscarPorId(id);
-		
 		if (usuario == null) {
 			return respuestaAccion.datoNulo(false, "No existe ese usuario", "id invalido");
 		}
+		usuario.setPasswordUsuario("");
 		
 		return respuestaAccion.accionCumplida(true, "Datos del usuario", usuario);
 	}
@@ -71,10 +80,13 @@ public class UsuarioControlador {
 	public ResponseEntity<?> listar(@PathVariable String termino){
 		
 		List<Usuario> listaUsuarios = usuarioServicio.listarUsuariosPorTermino(termino);
-		
 		if (listaUsuarios.size() == 0) {
 			return respuestaAccion.listaDatosVacia(false, "No existe usuarios", "tabla vacía");
 		}
+		listaUsuarios = listaUsuarios.stream().map(usuario -> {
+			usuario.setPasswordUsuario("");
+			return usuario;
+		}).collect(Collectors.toList());
 		
 		return respuestaAccion.accionCumplida(true, "usuarios", listaUsuarios);
 	}
@@ -90,8 +102,9 @@ public class UsuarioControlador {
 		}
 		// creamos usuario
 		try {
-			//usuario.setPasswordUsuario(passwordEncoder.encode(usuario.getPasswordUsuario()));
+			usuario.setPasswordUsuario(passwordEncoder.encode(usuario.getPasswordUsuario()));
 			nuevoUsuario = usuarioServicio.guardar(usuario);
+			nuevoUsuario.setPasswordUsuario("");
 		} catch (DataAccessException e) {
 			return respuestaAccion.errorBD(false, "Error al guardar el usuario",
 					e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -117,11 +130,13 @@ public class UsuarioControlador {
 		}
 		
 		try {
-			//usuarioActual.setPasswordUsuario(passwordEncoder.encode(usuario.getPasswordUsuario()));
-			usuarioActual.setPasswordUsuario(usuario.getPasswordUsuario());
+			if(usuario.getPasswordUsuario().length()>0) {
+				// codificación de la password
+				usuarioActual.setPasswordUsuario(passwordEncoder.encode(usuario.getPasswordUsuario()));
+			}
 			usuarioActual.setPersona(usuario.getPersona());
 			usuarioActualizado = usuarioServicio.guardar(usuarioActual);
-			
+			usuarioActualizado.setPasswordUsuario("");
 		} catch (DataAccessException e) {
 			return respuestaAccion.errorBD(false, "Error al actualizar el usuario",
 					e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -143,7 +158,7 @@ public class UsuarioControlador {
 		try {
 			usuarioActual.setEstadoUsuario(!usuarioActual.getEstadoUsuario());
 			usuarioActualizado = usuarioServicio.guardar(usuarioActual);
-			
+			usuarioActualizado.setPasswordUsuario("");
 		} catch (DataAccessException e) {
 			return respuestaAccion.errorBD(false, "Error al actualizar el usuario",
 					e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

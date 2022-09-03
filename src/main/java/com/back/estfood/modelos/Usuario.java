@@ -33,7 +33,7 @@ public class Usuario implements Serializable{
 	/* Relaciones */
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_persona")
 	private Persona persona;
 	
