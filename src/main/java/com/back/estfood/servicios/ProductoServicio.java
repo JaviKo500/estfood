@@ -40,6 +40,10 @@ public class ProductoServicio {
 	public List<Producto> listarProductoPorFechas(Date fechaInicio, Date fechaFin){
 		return productoRepo.findByEstadoProductoAndFechaIngresoBetween(true, fechaInicio, fechaFin);
 	}
+	@Transactional(readOnly = true)
+	public List<Producto> listarProductoStock(){
+		return productoRepo.findByStockProductoLessThanEqual(5);
+	}
 	
 	@Transactional(readOnly = true)
 	public Producto buscarPorCodigo(String cod) {
