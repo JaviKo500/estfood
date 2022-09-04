@@ -80,6 +80,28 @@ public class ProductoControlador {
 		
 		return respuestaAccion.accionCumplida(true, "productos", listaProductos);
 	}
+	@GetMapping("producto/menu/cliente")
+	public ResponseEntity<?> listarPorMenuCliente(){
+		
+		List<Producto> listaProductos= productoServicio.listarProductoMenuCliente();
+		
+		if (listaProductos.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe productos", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "productos", listaProductos);
+	}
+	@GetMapping("producto/menu/destacado")
+	public ResponseEntity<?> listarPorProdDestacado(){
+		
+		List<Producto> listaProductos= productoServicio.listarProductoDestacado();
+		
+		if (listaProductos.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe productos", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "productos", listaProductos);
+	}
 	
 	@GetMapping("/producto/{id}")
 	public ResponseEntity<?> buscarProductoPorId(@PathVariable Long id) {
@@ -110,6 +132,18 @@ public class ProductoControlador {
 	public ResponseEntity<?> listar(@PathVariable String termino){
 		
 		List<Producto> listaProductos= productoServicio.listarProductoPorTermino(termino);
+		
+		if (listaProductos.size() == 0) {
+			return respuestaAccion.listaDatosVacia(false, "No existe productos", "tabla vacía");
+		}
+		
+		return respuestaAccion.accionCumplida(true, "productos", listaProductos);
+	}
+	
+	@GetMapping("producto/buscar/estado/{termino}")
+	public ResponseEntity<?> listarEstadoPorTermino(@PathVariable String termino){
+		
+		List<Producto> listaProductos= productoServicio.listarProductoEstadoPorTermino(termino);
 		
 		if (listaProductos.size() == 0) {
 			return respuestaAccion.listaDatosVacia(false, "No existe productos", "tabla vacía");
@@ -244,7 +278,29 @@ public class ProductoControlador {
 
 		try {
 			
-			prodActual.setEstadoProducto(!prodActual.getMenuClienteProducto());
+			prodActual.setMenuClienteProducto(!prodActual.getMenuClienteProducto());
+			prodActualizado = productoServicio.guardar(prodActual);
+			
+		} catch (DataAccessException e) {
+			return respuestaAccion.errorBD(false, "Error al actualizar el producto",
+					e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+		}
+		return respuestaAccion.accionCumplida(true, "Estado actualizado", prodActualizado);
+	}
+	@PutMapping("/producto/destacar/{id}")
+	public ResponseEntity<?> actualizarProductoDestacar(@PathVariable Long id) {
+		
+		Producto prodActual = productoServicio.buscarPorId(id);
+		Producto prodActualizado = null;
+		
+		// si el prod no existe
+		if (prodActual == null) {
+			return respuestaAccion.datoNulo(false, "No existe en la Base de Datos", "id inválido");
+		}
+		
+		try {
+			
+			prodActual.setDestacarProducto(!prodActual.getDestacarProducto());
 			prodActualizado = productoServicio.guardar(prodActual);
 			
 		} catch (DataAccessException e) {

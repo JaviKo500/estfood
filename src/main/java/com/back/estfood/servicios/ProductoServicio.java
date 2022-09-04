@@ -26,14 +26,28 @@ public class ProductoServicio {
 	public Producto buscarPorId(Long id) {
 		return productoRepo.findById(id).orElse(null);
 	}
+	
 	@Transactional(readOnly = true)
 	public List<Producto> listarProductoPorTermino(String termino){
 		return productoRepo.findAllProductosByTermino(termino);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Producto> listarProductoEstadoPorTermino(String termino){
+		return productoRepo.findAllProductosByTerminoAndEstado(termino);
 	}
 	
 	@Transactional(readOnly = true)
 	public List<Producto> listarProductoPorEstado(){
 		return productoRepo.findByEstadoProducto(true);
+	}
+	@Transactional(readOnly = true)
+	public List<Producto> listarProductoMenuCliente(){
+		return productoRepo.findByMenuClienteProducto(true);
+	}
+	@Transactional(readOnly = true)
+	public List<Producto> listarProductoDestacado(){
+		return productoRepo.findByDestacarProductoAndMenuClienteProducto(true, true);
 	}
 	
 	@Transactional(readOnly = true)

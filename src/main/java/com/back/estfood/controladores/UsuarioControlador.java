@@ -130,9 +130,13 @@ public class UsuarioControlador {
 		}
 		
 		try {
-			if(usuario.getPasswordUsuario().length()>0) {
-				// codificación de la password
-				usuarioActual.setPasswordUsuario(passwordEncoder.encode(usuario.getPasswordUsuario()));
+			if(usuario.getPasswordUsuario().length()>0 && usuario.getAnteriorPassword().length() > 0) {
+				if(passwordEncoder.matches(usuario.getAnteriorPassword(), usuarioActual.getPasswordUsuario())) {
+					// codificación de la password
+					usuarioActual.setPasswordUsuario(passwordEncoder.encode(usuario.getPasswordUsuario()));
+				} else {
+					return respuestaAccion.accionIncumplida(false, "Contraseña anterior no coincide", "Datos erróneos");
+				}
 			}
 			usuarioActual.setPersona(usuario.getPersona());
 			usuarioActualizado = usuarioServicio.guardar(usuarioActual);

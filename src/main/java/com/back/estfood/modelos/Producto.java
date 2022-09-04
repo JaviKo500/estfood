@@ -43,7 +43,8 @@ public class Producto  implements Serializable{
 	private Integer stockAnteriorProducto;
 	private Boolean estadoProducto;
 	private Boolean menuClienteProducto;
-		
+	private Boolean destacarProducto;
+	
 	/* Relaciones */
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })

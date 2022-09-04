@@ -12,8 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
 
@@ -29,6 +31,10 @@ public class Usuario implements Serializable{
 	
 	private String passwordUsuario;
 	private Boolean estadoUsuario;
+	
+	@JsonInclude()
+	@Transient
+	private String anteriorPassword;
 	
 	/* Relaciones */
 	
