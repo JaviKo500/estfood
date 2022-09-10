@@ -1,5 +1,6 @@
 package com.back.estfood.controladores;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.back.estfood.configuracion.RutaImagenes;
 import com.back.estfood.imagenes.IUploadFileService;
 import com.back.estfood.modelos.Producto;
+import com.back.estfood.servicios.CloudinaryServicio;
 import com.back.estfood.servicios.ProductoServicio;
 import com.back.estfood.validaciones.RespuestaAccion;
 
@@ -37,6 +39,10 @@ public class ProductoControlador {
 	
 	@Autowired
 	private ProductoServicio productoServicio;
+	
+	@Autowired
+	private CloudinaryServicio cloudinaryServicio;
+	
 	
 	@Autowired
 	private IUploadFileService uploadService;
@@ -177,6 +183,7 @@ public class ProductoControlador {
 		}
 		// creamos producto
 		try {
+			
 			nuevoProdcto = productoServicio.guardar(producto);
 		} catch (DataAccessException e) {
 			return respuestaAccion.errorBD(false, "Error al guardar el producto",
@@ -187,21 +194,26 @@ public class ProductoControlador {
 	}
 	
 	@PostMapping("/producto/upload")
-	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id){
+	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) throws IOException{
 		Map<String, Object> response = new HashMap<>();
 		Producto producto = productoServicio.buscarPorId(id);
 		if(!archivo.isEmpty()) {
-			String nombreArchivo = null;
+			String idFotoAnterior = "";
+			if(producto.getImgIdProducto() != null) {
+				idFotoAnterior = producto.getImgIdProducto();
+				Map result = cloudinaryServicio.delete(idFotoAnterior);
+			}
 			try {
-				nombreArchivo = uploadService.copiar(archivo, RutaImagenes.RUTA_PRODUCTOS);
+				Map result = cloudinaryServicio.upload(archivo);
+				producto.setImgProducto((String)result.get("secure_url"));
+				producto.setImgIdProducto((String)result.get("public_id"));
+				
 			} catch (Exception e) {
 				response.put("mensaje", "Error al subir la imagen");
 				response.put("errror", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 				return respuestaAccion.errorBD(false, "Error al subir la img", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 			}
-			String nombreFotoAnterior = producto.getImgProducto();
-			uploadService.eliminar(nombreFotoAnterior, RutaImagenes.RUTA_PRODUCTOS);
-			producto.setImgProducto(nombreArchivo);
+			
 			productoServicio.guardar(producto);
 		}
 		return respuestaAccion.accionCumplida(true, "Imagen guardada", producto);
@@ -226,6 +238,7 @@ public class ProductoControlador {
 		try {
 			
 			prodActual.setCodigoProducto(producto.getCodigoProducto());
+			prodActual.setImgProducto(producto.getImgProducto());
 			prodActual.setDescripcionProducto(producto.getDescripcionProducto());
 			prodActual.setEstadoProducto(producto.getEstadoProducto());
 			prodActual.setFechaIngreso(producto.getFechaIngreso());

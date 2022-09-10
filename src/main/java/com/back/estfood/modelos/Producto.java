@@ -38,6 +38,7 @@ public class Producto  implements Serializable{
 	@Column(unique = true)
 	private String codigoProducto;
 	private String imgProducto;
+	private String imgIdProducto;
 	private Double precioVentaProducto;
 	private Integer stockProducto;
 	private Integer stockAnteriorProducto;
