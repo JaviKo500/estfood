@@ -1,6 +1,7 @@
 package com.back.estfood.auth;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -61,8 +62,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOrigins(Arrays.asList("*")); // permitir el dominio del cliente "angular"
+		config.setAllowedOrigins(Arrays.asList("")); // permitir el dominio del cliente "angular"
 		config.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+		config.setAllowedOriginPatterns(Collections.singletonList("*"));
 		config.setAllowCredentials(true); //permitimos credenciales
 		config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "access-control-allow-origin")); // permitimos las cabeceras
 		
