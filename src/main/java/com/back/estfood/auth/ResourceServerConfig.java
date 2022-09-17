@@ -43,7 +43,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		.antMatchers(HttpMethod.GET, "/api/uploads/img/**", "/images/**", "/api/producto/menu/**").permitAll()
 		// Acceso a solo los gets todos los roles
 		.antMatchers(HttpMethod.GET, "/**")	.hasAnyRole("ADMINISTRADOR", "VENDEDOR", "INVENTARIO")		
-		.antMatchers(HttpMethod.PUT, "/api/usuario/**")	.hasAnyRole("ADMINISTRADOR", "VENDEDOR", "INVENTARIO")		
+		.antMatchers(HttpMethod.PUT, "/api/usuario/**")	.hasAnyRole("ADMINISTRADOR", "VENDEDOR", "INVENTARIO")	
+		.antMatchers(HttpMethod.PUT, "/api/producto/menu/**")	.hasAnyRole("ADMINISTRADOR", "VENDEDOR", "INVENTARIO")
+		.antMatchers(HttpMethod.PUT, "/api/producto/destacar/**")	.hasAnyRole("ADMINISTRADOR", "VENDEDOR", "INVENTARIO")
 		.antMatchers("/api/cliente/**")		.hasAnyRole("ADMINISTRADOR", "VENDEDOR")
 		.antMatchers("/api/compra/**")		.hasAnyRole("ADMINISTRADOR", "INVENTARIO")
 		.antMatchers("/api/formaPago/**")	.hasAnyRole("ADMINISTRADOR", "VENDEDOR", "INVENTARIO")

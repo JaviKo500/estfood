@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.back.estfood.imagenes.IUploadFileService;
 import com.back.estfood.modelos.Producto;
 import com.back.estfood.servicios.CloudinaryServicio;
 import com.back.estfood.servicios.ProductoServicio;
@@ -305,10 +304,10 @@ public class ProductoControlador {
 	public ResponseEntity<?> borrarProducto(@PathVariable Long id) throws IOException{
 		try {
 			Producto producto = productoServicio.buscarPorId(id);
+			productoServicio.eliminar(id);
 			if(producto.getImgIdProducto() != null) {
 				Map result = cloudinaryServicio.delete(producto.getImgIdProducto());
 			}
-			productoServicio.eliminar(id);
 		} catch (DataAccessException e) {
 			return respuestaAccion.errorBD(false, "Error al borrar el producto",
 					e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
